@@ -171,11 +171,12 @@
             SCISSORS: 2
         };
 
+        const isMobile = window.innerWidth <= 768;
         const N_AGENTS = 66;
-        const SPEED = 2;
+        const SPEED = isMobile ? 1.25 : 2; // Slower speed on mobile
         const TURN_JITTER = 0.08;
         const ROTATION_SPEED = 0.005;
-        const IMAGE_SCALE = window.innerWidth <= 768 ? 0.5 : 1; // Scale for mobile
+        const IMAGE_SCALE = isMobile ? 0.5 : 1; // Scale for mobile
 
         const SPECIES_NAMES = {
             [SPECIES.ROCK]: 'Rock',
