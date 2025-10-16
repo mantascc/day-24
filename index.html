@@ -99,6 +99,32 @@
             font-weight: normal;
             font-family: 'Workbench', monospace;
         }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            #controls {
+                padding: 8px 12px;
+                gap: 12px;
+            }
+
+            button {
+                padding: 4px 12px;
+                font-size: 11px;
+            }
+
+            #stats {
+                gap: 12px;
+                font-size: 10px;
+            }
+
+            #winContent {
+                padding: 30px 40px;
+            }
+
+            #winText {
+                font-size: 32px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -149,6 +175,7 @@
         const SPEED = 2;
         const TURN_JITTER = 0.08;
         const ROTATION_SPEED = 0.005;
+        const IMAGE_SCALE = window.innerWidth <= 768 ? 0.5 : 1; // Scale for mobile
 
         const SPECIES_NAMES = {
             [SPECIES.ROCK]: 'Rock',
@@ -198,23 +225,23 @@
             draw() {
                 const img = images[this.species];
                 if (img) {
-                    const width = img.width;
-                    const height = img.height;
+                    const width = img.width * IMAGE_SCALE;
+                    const height = img.height * IMAGE_SCALE;
 
                     ctx.save();
                     ctx.translate(this.x + width / 2, this.y + height / 2);
                     ctx.rotate(this.rotation);
-                    ctx.drawImage(img, -width / 2, -height / 2);
+                    ctx.drawImage(img, -width / 2, -height / 2, width, height);
                     ctx.restore();
                 }
             }
 
             getWidth() {
-                return images[this.species]?.width || 0;
+                return (images[this.species]?.width || 0) * IMAGE_SCALE;
             }
 
             getHeight() {
-                return images[this.species]?.height || 0;
+                return (images[this.species]?.height || 0) * IMAGE_SCALE;
             }
         }
 
@@ -283,6 +310,7 @@
             imageFiles.forEach(({ species, src }) => {
                 const img = new Image();
                 img.onload = () => {
+                    images[species] = img;
                     imagesLoaded++;
                     if (imagesLoaded === 3) {
                         init();
@@ -290,7 +318,6 @@
                     }
                 };
                 img.src = src;
-                images[species] = img;
             });
         }
 

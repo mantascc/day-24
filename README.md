@@ -1,22 +1,24 @@
 # RPS Agent Simulation
 
-A minimal Rock-Paper-Scissors agent-based simulation where colored agents move randomly and convert each other based on collision outcomes.
+A minimal Rock-Paper-Scissors agent-based simulation where agents move randomly, collide, and convert each other based on RPS rules.
+
+## Features
+
+- **66 agents** with image sprites (rock, scissors, paper)
+- **Rotating sprites** that continuously spin as they move
+- **Bounce physics** - agents physically bounce away from each other on collision
+- **Bounding box collision detection** using actual image dimensions
+- **Win state** - simulation ends when one species dominates
+- **Mobile-friendly** - automatically scales images to 50% on smaller screens
+- **Minimal dark mode UI** with live population counter
 
 ## Rules
 
-- **Rock (blue)** beats **Scissors (green)**
-- **Scissors (green)** beats **Paper (red)**
-- **Paper (red)** beats **Rock (blue)**
+- **Rock** beats **Scissors**
+- **Scissors** beats **Paper**
+- **Paper** beats **Rock**
 
-When two agents of different types collide, the loser converts to the winner's type.
-
-## Implementation
-
-- 300 agents, each rendered as 2x2 pixels
-- Random wandering behavior with small directional jitter
-- Toroidal wrapping (agents wrap around screen edges)
-- Collision radius: 8 pixels
-- Dark mode aesthetic
+When two agents collide, they bounce away from each other and the loser converts to the winner's type.
 
 ## Usage
 
@@ -25,10 +27,14 @@ Open `index.html` in any modern browser.
 **Controls:**
 - **Pause/Play** - Stop or resume the simulation
 - **Reset** - Regenerate all agents with random positions and types
+- **Play again** - Restart after a win (appears in victory overlay)
 
 ## Technical Details
 
 - Single HTML file with embedded CSS and JavaScript
-- Canvas-based rendering using requestAnimationFrame
-- O(n²) collision detection (optimized for <500 agents)
-- Conversions applied after collision detection to prevent chain reactions within a single frame
+- Canvas-based rendering using `requestAnimationFrame`
+- AABB (Axis-Aligned Bounding Box) collision detection
+- Toroidal wrapping (agents wrap around screen edges)
+- Elastic collision physics with constant speed maintenance
+- Workbench font for victory message
+- Responsive design with mobile optimizations (≤768px)
